@@ -4,7 +4,7 @@ path = require 'path'
 notifier = require 'node-notifier'
 lessMiddleware = require 'less-middleware'
 route = require './route/route'
-# cors = require 'cors'
+cors = require 'cors'
 
 port = 8888
 app = express()
@@ -47,13 +47,20 @@ app.configure ()->
 
     # app.use cors()
     app.use (req,res,next)->
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
+        res.header("Access-Control-Allow-Origin", "*")
+        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS,X-XSRF-TOKEN')
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        next()
 
 
 app.configure 'development', () ->
     app.use express.errorHandler()
+
+# app.all '*',(req,res,next)->
+#     res.header("Access-Control-Allow-Origin", "*")
+#     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+#     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+#     next()
 
 app.get '/parse',route.parseUrl
 app.get '/', route.index
@@ -69,6 +76,6 @@ server = app.listen port, ()->
 # LiveReload
 livereload = require('livereload').createServer
     exts: ['jade', 'less', 'coffee']
-livereload.watch(coffeeDir);
-livereload.watch(lessDir);
-livereload.watch(__dirname+'/views');
+livereload.watch(coffeeDir)
+livereload.watch(lessDir)
+livereload.watch(__dirname+'/views')
