@@ -1,0 +1,5 @@
+{
+  "coffee": "coffee-script/register",
+  "ls": "LiveScript",
+  "clear": true
+}

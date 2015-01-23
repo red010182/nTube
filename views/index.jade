@@ -1,0 +1,16 @@
+extends layout
+block body
+	link(rel="stylesheet" href="http://vjs.zencdn.net/4.10/video-js.css")
+	script(src="//vjs.zencdn.net/4.10/video.js")
+	div(ng-controller="ParserController as parser")
+		form(ng-submit="parser.getPlaylist()")
+			input(type="url" ng-model="url" name="url" placeholder="貼上youtube合輯網址")
+			input(type="submit" id="submit" value="Submit")
+
+		video(id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" poster="" ng-show="playlist")
+		ul.songsContainer
+			li.song(ng-repeat="(index,video) in playlist.videos")
+				a(ng-href="" ng-click="parser.playVideoWithIndex(index)")
+					p {{video.title}}
+	script(src='/js/config.js')
+	script(src='/js/controllers.js')

@@ -1,0 +1,25 @@
+{
+  "name": "noTube",
+  "version": "0.0.2",
+  "description": "webpage server for justgoodsell",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tpy",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "3.2.6",
+    "async": "~0.2.9",
+    "debug": "~0.7.2",
+    "request": "~2.27.0",
+    "cluster": "~0.7.7",
+    "jade": "*",
+    "underscore": "*",
+    "routes":"*",
+    "coffee-script":"*",
+    "node-notifier":"*",
+    "less-middleware":"*",
+    "connect-coffee-script":"*",
+    "livereload":"*"
+  }
+}

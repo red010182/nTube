@@ -1,0 +1,5 @@
+constants.js
+apns/*
+node_modules/*
+*.log
+fake_data/*
