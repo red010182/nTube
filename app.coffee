@@ -4,6 +4,7 @@ path = require 'path'
 notifier = require 'node-notifier'
 lessMiddleware = require 'less-middleware'
 route = require './route/route'
+cors = require 'cors'
 
 port = 8888
 app = express()
@@ -44,9 +45,7 @@ app.configure ()->
     app.use express.static(publicDir)
     app.use '/bower_components',  express.static(bowerDir)
 
-    app.use (req,res,next)->
-        res.setHeader 'Access-Control-Allow-Origin', '*'
-        next()
+    app.use cors()
 
 
 app.configure 'development', () ->

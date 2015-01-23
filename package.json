@@ -20,6 +20,7 @@
     "node-notifier":"*",
     "less-middleware":"*",
     "connect-coffee-script":"*",
-    "livereload":"*"
+    "livereload":"*",
+    "cors":"*"
   }
 }
