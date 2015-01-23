@@ -59,7 +59,6 @@
     ParserController.prototype.getPlaylist = function(url) {
       var playlistID, request, videoID;
       url = this.$scope.url;
-      url = "https://www.youtube.com/watch?v=6Zfg3CCZMfk&list=RD6Zfg3CCZMfk#t=0";
       videoID = this.getVideoID(url);
       playlistID = this.getPlaylistID(url);
       console.log("" + videoID + ", " + playlistID);
@@ -67,7 +66,8 @@
       return request.then((function(_this) {
         return function(result) {
           _this.playlist = new Playlist(result.data);
-          return _this.$scope.playlist = _this.playlist;
+          _this.$scope.playlist = _this.playlist;
+          return _this.playNextVideo();
         };
       })(this));
     };
@@ -123,7 +123,7 @@
     ParserController.prototype.getPlaylistID = function(url) {
       var match;
       match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|list=)([^#\&\?]*).*/);
-      if (match && match[2].length === 13) {
+      if (match && match[2]) {
         return match[2];
       }
     };

@@ -28,7 +28,7 @@ class ParserController
 		
 	getPlaylist: (url)->
 		url = @$scope.url
-		url = "https://www.youtube.com/watch?v=6Zfg3CCZMfk&list=RD6Zfg3CCZMfk#t=0"
+		# url = "https://www.youtube.com/watch?v=6Zfg3CCZMfk&list=RD6Zfg3CCZMfk#t=0"
 		videoID = @getVideoID url
 		playlistID = @getPlaylistID url
 		console.log "#{videoID}, #{playlistID}"
@@ -36,6 +36,7 @@ class ParserController
 		request.then (result) =>
 			@playlist = new Playlist(result.data)
 			@$scope.playlist = @playlist
+			@playNextVideo()
 	
 	playPreviousVideo: ->
 		@playVideoWithIndex @currentPlayingIndex-1
@@ -65,7 +66,7 @@ class ParserController
 	    return match[2] if  match and match[2].length is 11
 	getPlaylistID:(url)->
 	    match = url.match /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|list=)([^#\&\?]*).*/
-	    return match[2] if  match and match[2].length is 13
+	    return match[2] if  match and match[2]
 
 		
 app.controller 'ParserController', ['$scope', '$http', '$log','$sce', ParserController]
