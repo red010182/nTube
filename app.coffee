@@ -44,6 +44,10 @@ app.configure ()->
     app.use express.static(publicDir)
     app.use '/bower_components',  express.static(bowerDir)
 
+    app.use (req,res,next)->
+        res.setHeader 'Access-Control-Allow-Origin', '*'
+        next()
+
 
 app.configure 'development', () ->
     app.use express.errorHandler()
