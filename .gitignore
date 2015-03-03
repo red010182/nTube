@@ -3,3 +3,6 @@ apns/*
 node_modules/*
 *.log
 fake_data/*
+dbconfig.json
+*.mp3
+test/*

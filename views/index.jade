@@ -1,16 +1,43 @@
 extends layout
 block body
-	link(rel="stylesheet" href="http://vjs.zencdn.net/4.10/video-js.css")
+	link(rel="stylesheet" href="//vjs.zencdn.net/4.10/video-js.css")
 	script(src="//vjs.zencdn.net/4.10/video.js")
-	div(ng-controller="ParserController as parser")
-		form(ng-submit="parser.getPlaylist()")
-			input(type="url" ng-model="url" name="url" placeholder="貼上youtube合輯網址" required)
-			input(type="submit" id="submit" value="Submit")
+	script(src='/js/download.min.js')
 
-		video(id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" poster="" ng-show="playlist" ng-cloak)
-		ul.songsContainer
-			li.song(ng-repeat="(index,video) in playlist.videos" ng-cloak)
-				a(ng-href="" ng-click="parser.playVideoWithIndex(index)")
-					p {{video.title}}
+
+	div.container
+		nav.navbar.navbar-default
+			div.navbar-header
+				a#logo(href="#") nTube
+			div.navbar-right(ng-controller="FacebookManager as fbManager")
+				button(type="button" class="btn btn-primary btn-large" data-ng-show="!logged" data-ng-disabled="!facebookReady" data-ng-click="fbManager.login()") Login with Facebook
+				button(type="button" class="btn btn-danger btn-large" data-ng-show="logged" data-ng-disabled="!facebookReady" data-ng-click="fbManager.logout()") Logout
+				debug(val="user")
+
+		div(ng-controller="ParserController as parser")
+			form.form-horizontal(ng-submit="parser.getPlaylist()")
+				div.form-group
+					div.col-md-9.col-md-offset-1
+						input.form-control(type="url" ng-model="url" name="url" placeholder="貼上youtube合輯網址" required)						
+					div.col-md-1
+						input.btn.btn-default(type="submit" id="submit" value="Submit")
+			div.quickStart(ng-show="!playlist")
+				a(ng-click="parser.getPlaylist('https://www.youtube.com/watch?v=HDqBCcOv_7U&list=RDHDqBCcOv_7U#t=0')")
+					p 測試看看： LeeSSang(리쌍) _ Tears(눈물) (Feat. Eugene(유진) of THE SEEYA) MV
+				a(ng-click="parser.getPlaylist('https://www.youtube.com/watch?v=38lcQsEMGrk&list=PLj6NQzHFCvkHKIm0Vnk9LH3odqTIBRZ1Q')")
+					p 測試看看： Mayday五月天官方歌曲
+
+			div.row
+				video.center-block(id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="80%" height="480px" poster="" ng-show="playlist" ng-cloak)
+				div.center-block
+					ul.songsContainer
+						li.song.row(ng-repeat="(index,video) in playlist.videos" ng-cloak)
+							a.col-md-10(ng-href="" ng-click="parser.playVideoWithIndex(index)")
+								p {{video.title}}
+							a.col-md-1(ng-href="{{video.mp3Url}}" download="{{video.title}}.mp3" target="_blank")
+								p MP3
+							a.col-md-1(ng-href="" ng-click="parser.downloadMp4(video)" target="_blank")
+								p MP4
 	script(src='/js/config.js')
+	script(src='/js/services.js')
 	script(src='/js/controllers.js')

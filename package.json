@@ -21,6 +21,8 @@
     "less-middleware":"*",
     "connect-coffee-script":"*",
     "livereload":"*",
-    "cors":"*"
+    "fluent-ffmpeg":"*",
+    "ytdl":"*",
+    "ytdl-core":"*"
   }
 }

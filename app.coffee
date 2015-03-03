@@ -4,9 +4,10 @@ path = require 'path'
 notifier = require 'node-notifier'
 lessMiddleware = require 'less-middleware'
 route = require './route/route'
-cors = require 'cors'
+global.mysql = require 'mysql'
+fs = require 'fs'
 
-port = 8888
+port = 80
 app = express()
 lessDir = __dirname + '/client/less'
 coffeeDir = __dirname + '/client/coffee'
@@ -45,7 +46,6 @@ app.configure ()->
     app.use express.static(publicDir)
     app.use '/bower_components',  express.static(bowerDir)
 
-    # app.use cors()
     app.use (req,res,next)->
         res.header("Access-Control-Allow-Origin", "*")
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS,X-XSRF-TOKEN')
@@ -56,13 +56,23 @@ app.configure ()->
 app.configure 'development', () ->
     app.use express.errorHandler()
 
-# app.all '*',(req,res,next)->
-#     res.header("Access-Control-Allow-Origin", "*")
-#     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
-#     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-#     next()
+
+DB = JSON.parse(fs.readFileSync './dbconfig.json')
+db = DB.production
+global.pool  = mysql.createPool
+    host     : db.ip,
+    user     : db.name,
+    password : db.pw,
+    database : db.db,
+    charset : "UTF8MB4_GENERAL_CI",
+    connectionLimit: 256,
+    multipleStatements: true,
+    queueLimit: 0
+
 
 app.get '/parse',route.parseUrl
+app.get '/download',route.download
+app.post '/loginByFacebook',route.loginByFacebook
 app.get '/', route.index
 
 server = app.listen port, ()->
@@ -79,3 +89,5 @@ livereload = require('livereload').createServer
 livereload.watch(coffeeDir)
 livereload.watch(lessDir)
 livereload.watch(__dirname+'/views')
+
+
